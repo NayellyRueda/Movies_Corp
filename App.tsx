@@ -8,7 +8,7 @@
 
 import React from "react";
 import { View, Text } from "react-native";
-// import Navigation from "./src/navigations/navigation";
+import Navigation from "./src/navigations/navigation";
 import Movies from "./src/views/movies/movies";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppearanceProvider } from "react-native-appearance";
@@ -23,6 +23,6 @@ export default function App() {
     //   </ThemeProvider>
     // </AppearanceProvider>
     // </SafeAreaProvider>
-    <Movies/>
+    <Navigation />
   )
 }

@@ -13,19 +13,19 @@ export async function getMovies() {
   return response
 };
 
-export async function getMoviesDetail(movieId: string) {
+export async function getMoviesDetail(movieId: number) {
   let response = await axios.get(Routes.ROUTES.MOVIES_DETAIL(movieId), {
-    timeout: Routes.ROUTES.FETCH_TIMEOUT //No, yo lo volvi a agregar
+    timeout: Routes.ROUTES.FETCH_TIMEOUT
   }).catch(error => {
     return{
       status: false,
       data: error.response.data
     }
   })
-  return response
+  return response.data
 };
 
-export async function getCastMovies(movieId: string) {
+export async function getCastMovies(movieId: number) {
   let response = await axios.get(Routes.ROUTES.CAST_MOVIES(movieId), {
     timeout: Routes.ROUTES.FETCH_TIMEOUT
   }).catch(error => {
@@ -34,5 +34,5 @@ export async function getCastMovies(movieId: string) {
       data: error.response.data
     }
   })
-  return response
+  return response.data.cast
 };

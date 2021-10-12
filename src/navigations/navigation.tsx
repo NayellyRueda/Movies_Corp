@@ -1,132 +1,36 @@
-// import React from "react";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { Icon } from "react-native-elements";
-// import moviesStack from "./moviesStack";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import Movies from "../views/movies/movies";
+import DescriptionMovie from "../views/movies/descriptionMovie";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Icon } from "react-native-elements";
 
-// const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
-// export default function Navigation(){
-//   return(
-//     <NavigationContainer>
-//       <Tab.Navigator
-//         initialRouteName="movies"
-//         tabBarOptions={{
-//           inactiveTintColor: "#646464",
-//           activeTintColor: "#00a680",
-//         }}
-//         screenOptions={({ route }) => ({
-//           tabBarIcon: ({ color }) => screenOptions(route, color),
-//         })}
-//       >
-//         <Tab.Screen
-//           name="movies"
-//           component={moviesStack}
-//           options={{ title: "movies" }}
-//         />
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// }
+export default function Navigation(){
+  return(
+    <NavigationContainer>
+      <Tab.Navigator>  
+        <Tab.Screen
+          name="Movies"
+          component={Movies}
+          options={{ 
+            headerShown: false, 
+            title: "", 
+            headerStatusBarHeight: 0,
+          }}
+        />
+        <Tab.Screen
+          name="descriptionGeneralMovie"
+          component={DescriptionMovie}
+          options={{ 
+            headerShown: false, 
+            title: "", 
+            headerStatusBarHeight: 0,
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
 
-// interface ScreenOptions {
-//   route: Route,
-//   color: string
-// }
-
-// interface Route {
-//   name: string
-// }
-
-// function screenOptions(screenOption: ScreenOptions) {
-//   let iconName;
-//   const {color, route} = screenOption;
-
-//   switch (route.name) {
-//     case "movies":
-//       iconName = "compass-outline";
-//       break;
-//     default:
-//       break;
-//   }
-//   return (
-//     <Icon type="material-community" name={iconName} size={22} color={color} />
-//   )
-// }
-// import React from "react";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { Icon } from "react-native-elements";
-// import MoviesStack from "./moviesStack";
-
-// const Tab = createBottomTabNavigator();
-
-// export default function Navigation() {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator
-//         initialRouteName="movies"
-//         tabBarOptions={{
-//           inactiveTintColor: "#646464",
-//           activeTintColor: "#00a680",
-//         }}
-//         screenOptions={({ route }) => ({
-//           tabBarIcon: ({ color }) => screenOptions(route, color),
-//         })}
-//       >
-//         <Tab.Screen
-//           name="movies"
-//           component={MoviesStack}
-//           options={{ title: "Movies" }}
-//         />
-//         {/* <Tab.Screen
-//           name="favorites"
-//           component={FavoritesStack}
-//           options={{ title: "Favoritos" }}
-//         />
-//         <Tab.Screen
-//           name="top-restaurants"
-//           component={TopRestaurantsStack}
-//           options={{ title: "Top 5" }}
-//         />
-//         <Tab.Screen
-//           name="search"
-//           component={SearchStack}
-//           options={{ title: "Buscar" }}
-//         />
-//         <Tab.Screen
-//           name="account"
-//           component={AccountStack}
-//           options={{ title: "Cuenta" }}
-//         /> */}
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-// function screenOptions(route, color) {
-//   let iconName;
-
-//   switch (route.name) {
-//     case "movies":
-//       iconName = "compass-outline";
-//       break;
-//     // case "favorites":
-//     //   iconName = "heart-outline";
-//     //   break;
-//     // case "top-restaurants":
-//     //   iconName = "star-outline";
-//     //   break;
-//     // case "search":
-//     //   iconName = "magnify";
-//     //   break;
-//     // case "account":
-//     //   iconName = "home-outline";
-//     //   break;
-//     default:
-//       break;
-//   }
-//   return (
-//     <Icon type="material-community" name={iconName} size={22} color={color} />
-//   );
-// }

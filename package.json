@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.0.8",
+    "@react-navigation/elements": "^1.2.0",
     "@react-navigation/native": "^6.0.5",
     "@reduxjs/toolkit": "^1.6.2",
+    "@types/react-native-snap-carousel": "^3.8.4",
     "@types/styled-components": "^5.1.15",
     "@types/styled-components-react-native": "^5.1.1",
     "axios": "^0.22.0",
@@ -22,6 +24,7 @@
     "react-native-elements": "^3.4.2",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.8.0",
     "react-native-vector-icons": "^8.1.0",
     "styled-components": "^5.3.1"
   },
