@@ -3,7 +3,7 @@ import {View, Text, ScrollView, ActivityIndicator, Image } from 'react-native';
 import styled from 'styled-components/native';
 import {SearchBar} from 'react-native-elements';
 import MovieDescription from '../../components/movieDescription';
-import {getMovies} from '../../services/api/movies';
+import {getMovies, getMoviesPopular} from '../../services/api/movies';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -44,25 +44,62 @@ const SeeAllText = styled.Text`
   color: #6b7480;
 `;
 
+
+/**
+ * Movie section screen.  
+ */
+
 export default function Movies() {
   const [search, setSearch] = useState('');
   const [infoMovie, setInfoMovie] = useState([]);
+  const [moviesFiltered, setMoviesFiltered] = useState([]);
+  const [moviesForYouFiltered, setMoviesForYouFiltered] = useState([]);
+  const [infoMoviePopular, setInfoMoviePopular] = useState([]); 
   const [loading, setLoading] = useState(true);
+  const [loadingForYou, setLoadingForYou] = useState(true);
 
   const getData = async () => {
     setLoading(true);
     let response = await getMovies();
-    if (response.data.results.length > 0) {
-      setInfoMovie(response.data.results);
+    if (response.length > 0) {
+      setInfoMovie(response);
+      setMoviesFiltered(response)
       setLoading(false);
     } else {
       setLoading(false);
     }
   };
+  const getDataMoviesPopular = async () => {
+    setLoadingForYou(true)
+    let response = await getMoviesPopular();
+    if(response.length > 0){
+      setInfoMoviePopular(response);
+      setMoviesForYouFiltered(response);
+      setLoadingForYou(false);
+    } else{
+      setLoadingForYou(false)
+    }
+
+  };
 
   useEffect(() => {
     getData();
+    getDataMoviesPopular();
   }, []);
+
+  const handleSearch = (text: string) => {
+    const filtered = infoMovie.filter(o => {
+      return o.title.toUpperCase().includes(text.toUpperCase());
+    });
+    
+    const filteredForYou = infoMoviePopular.filter(o => {
+      return o.title.toUpperCase().includes(text.toUpperCase());
+    });
+
+    setMoviesFiltered(filtered);
+    setMoviesForYouFiltered(filteredForYou);
+    setSearch(text);
+  };
 
 
   return (
@@ -71,7 +108,7 @@ export default function Movies() {
       <SearchBar
         placeholder="Search"
         onChangeText={(movie: string) => {
-          setSearch(movie);
+          handleSearch(movie);
         }}
         value={search}
         containerStyle={{
@@ -92,19 +129,21 @@ export default function Movies() {
       <SectionMovies>
         <ContainerTexts>
           <SubTitleText>Recommended for you</SubTitleText>
-          <SeeAllText>See all</SeeAllText>
+          <SeeAllText>Ver peliculas favoritas</SeeAllText>
         </ContainerTexts>
         <ScrollView horizontal={true}>
           <View style={{flexDirection: 'row'}}>
-            {loading ? (
-              <ActivityIndicator color={'red'} size="large" />
+            {loadingForYou ? (
+              <ActivityIndicator color={'#5ca1d4'} size="large" />
             ) : (
-              infoMovie.map((o, i) => {
+              moviesForYouFiltered.map((o, i) => {
                 return (
                   <MovieDescription
                     key={i}
                     title={o.title}
                     image={o.poster_path}
+                    movieId={o.id}
+                    movieRating={o.vote_average / 2}
                   />
                 );
               })
@@ -118,14 +157,16 @@ export default function Movies() {
         <ScrollView horizontal={true}>
           <View style={{flexDirection: 'row'}}>
             {loading ? (
-              <ActivityIndicator color={'red'} size="large" />
+              <ActivityIndicator color={'#5ca1d4'} size="large" />
             ) : (
-              infoMovie.map((o, i) => {
+              moviesFiltered.map((o, i) => {
                 return (
                   <MovieDescription
                     key={i}
                     title={o.title}
                     image={o.poster_path}
+                    movieId={o.id}
+                    movieRating={o.vote_average / 2}
                   />
                 );
               })

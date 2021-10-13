@@ -1,3 +1,7 @@
+/**
+ * App color standardization.  
+ */
+
 export const lightColors = {
   background: '#FFFFFF',
   primary: '#512DA8',

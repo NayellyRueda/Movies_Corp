@@ -7,22 +7,14 @@
  */
 
 import React from "react";
-import { View, Text } from "react-native";
-import Navigation from "./src/navigations/navigation";
-import Movies from "./src/views/movies/movies";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AppearanceProvider } from "react-native-appearance";
-import { ThemeProvider } from "./src/constants/themeProvider"
+import { Provider } from 'react-redux';
+import {store} from './src/redux/store' 
+import RootNavigation from "./src/navigations/RootNavigation";
 
 export default function App() {
   return(
-    // <SafeAreaProvider>
-    // <AppearanceProvider>
-    //   <ThemeProvider>
-        
-    //   </ThemeProvider>
-    // </AppearanceProvider>
-    // </SafeAreaProvider>
-    <Navigation />
-  )
+    <Provider store={store}>
+      <RootNavigation />
+    </Provider>
+  );
 }

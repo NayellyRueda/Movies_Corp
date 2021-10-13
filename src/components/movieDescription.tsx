@@ -39,32 +39,40 @@ const NameMovie = styled.Text`
 
 interface Props {
   title: string,
-  image: string
+  image: string,
+  movieId: string,
+  movieRating: Number
 }
+
+
+/**
+ * This component is the brief movie's description, name, rate and the jacket.  
+ */
+
 
 export default function MovieDescription(props:Props){
   const navigation = useNavigation();
-  const { title, image } = props;
-  const [rating, setRating] = useState(null);
+  const { title, image, movieId, movieRating } = props;
 
   return (
-    <ViewDescriptionMovie onPress={() => navigation.navigate("DescriptionMovie")}>
+    <ViewDescriptionMovie onPress={() => navigation.navigate('Home2', {movieId})}>
       <ViewContent>
         <ViewMovieImage>
           <ImageMovie
-            source={{uri:`https://image.tmdb.org/t/p/w500/${image}`}}
+            source={
+              image == null
+                ? require('../assets/no-image.png')
+                : {uri: `https://image.tmdb.org/t/p/w500/${image}`}
+            }
           />
         </ViewMovieImage>
           <NameMovie>{title}</NameMovie>
         <AirbnbRating
           count={5}
           reviews={["", "", "", "", ""]}
-          defaultRating={0}
+          defaultRating={movieRating}
           size={15}
           reviewSize={1}
-          onFinishRating={(value) => {
-            setRating(value);
-          }}
         />
       </ViewContent>
     </ViewDescriptionMovie>

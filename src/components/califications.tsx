@@ -26,7 +26,16 @@ const TextButton = styled.Text`
   color: white;
 `
 
-export default function Califications(){
+interface Props {
+  movieRating: Number
+}
+
+/**
+ * This component rates movie's satisfaction .
+ */
+
+export default function Califications(props : Props){
+  const {movieRating} = props;
   const [rating, setRating] = useState();
   return (
     <Container>
@@ -36,7 +45,8 @@ export default function Califications(){
       <AirbnbRating
           count={5}
           reviews={["", "", "", "", ""]}
-          defaultRating={0}
+          defaultRating={movieRating}
+          isDisabled={true}
           size={15}
           reviewSize={1}
           onFinishRating={(value) => {

@@ -27,6 +27,11 @@ export interface Props {
   character: string;
 };
 
+
+/**
+ * This component shows character's name and photo.
+ */
+
 export default function Cast(props: Props) {
   const {image, character} = props;
   return (

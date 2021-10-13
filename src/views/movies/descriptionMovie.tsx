@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
 import {Icon} from 'react-native-elements';
 import styled from 'styled-components/native';
+import { useSelector, useDispatch } from 'react-redux';
+import {addMovie, removeMovie} from '../../redux/reducers/moviesReducer';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -21,15 +23,13 @@ const ImageMovie = styled.Image`
   height: ${hp('37%')}px;
 `;
 const Info = styled.View`
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-end;
+  justify-content: flex-end;
   flex-direction: row;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
   margin-top: -30px;
-  background-color: #fff;
 `;
 const TitleMovie = styled.Text`
   font-weight: bold;
@@ -46,15 +46,35 @@ const ContainerCast = styled.View`
   height: ${hp('30%')}px;
 `;
 
-export default function DescriptionMovie() {
+interface Props {
+  route: Route
+};
+interface Route {
+  params: Params
+};
+interface Params {
+  movieId: number
+};
+
+/**
+ * Movie's description screen.  
+ */
+
+export default function DescriptionMovie(props:Props) {
+  const { route } = props;
+  const { movieId } = route.params;
   const [loading, setLoading] = useState(true);
   const [infoCast, setInfoCast] = useState([]);
-  const [description, setDescription] = useState([
-    {title: '', backdrop_path: '', genres: [], overview: ''},
-  ]);
+  const [description, setDescription] = useState(
+    {title: '', backdrop_path: '', genres: [], overview: '', production_companies: [], vote_average: 0},
+  );
+  const [like, setLike] = useState(false);
+
+  const { movies } = useSelector(state  => state.movies)
+  const dispatch = useDispatch();
 
   const getDataDetail = async () => {
-    let responseDescription = await getMoviesDetail(19404);
+    let responseDescription = await getMoviesDetail(movieId);
     if (responseDescription != undefined) {
       setDescription(responseDescription);
       setLoading(false);
@@ -65,7 +85,7 @@ export default function DescriptionMovie() {
 
   const getDataCast = async () => {
     setLoading(true);
-    let responseCast = await getCastMovies(19404);
+    let responseCast = await getCastMovies(movieId);
     if (responseCast.length > 0) {
       setInfoCast(responseCast);
       setLoading(false);
@@ -87,23 +107,30 @@ export default function DescriptionMovie() {
         }}
         resizeMode="cover"
       />
-      {/* <Info>
+      <Info>
         <Icon
           type="material-community"
           name="heart"
-          color="#f00"
+          color={movies.includes(movieId) ? "#f00" : "#fff"}
           underlayColor="transparent"
           containerStyle={{marginTop: -35,
-            backgroundColor: "#fff",
+            backgroundColor: "#283546",
             padding: 15,
-            borderRadius: 100,}}
+            borderRadius: 100}}
+          onPress={() =>{
+            if(movies.includes(movieId)) {
+              dispatch(removeMovie(movieId))
+            } else {
+              dispatch(addMovie(movieId))
+            }
+          }}
         />
-      </Info> */}
+      </Info>
       <SectionMovies>
         <TitleMovie>{description.title}</TitleMovie>
-        <Califications/>
+        <Califications movieRating={description.vote_average / 2}/>
         <TextDescription>{description.overview}</TextDescription>
-        <ScrollView horizontal={true} style={{height: '5%'}}>
+        <ScrollView horizontal={true}>
           <ContainerCast>
             {infoCast.map((o, i) => {
               return (
@@ -114,13 +141,13 @@ export default function DescriptionMovie() {
         </ScrollView>
         <TextInformation
           field={'Studio'}
-          // value={description.production_companies.map((o, i) => `${o.name}, `)}
-          value="jpa"
+          value={description.production_companies.map((o, i) => `${o.name}, `)}
+          // value="jpa"
         />
         <TextInformation
           field={'Genre'}
-          // value={description.genres.map((o, i) => `${o.name}, `)}
-          value="jpa"
+          value={description.genres.map((o, i) => `${o.name}, `)}
+          // value="jpa"
         />
         <TextInformation field={'Release'} value={description.Released} />
       </SectionMovies>

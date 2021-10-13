@@ -3,34 +3,30 @@ import { NavigationContainer } from "@react-navigation/native";
 import Movies from "../views/movies/movies";
 import DescriptionMovie from "../views/movies/descriptionMovie";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Icon } from "react-native-elements";
-
-const Tab = createBottomTabNavigator();
+/**
+ * This is the nesting navigation .  
+ */
 
 export default function Navigation(){
+  const HomeStack = createNativeStackNavigator();
   return(
-    <NavigationContainer>
-      <Tab.Navigator>  
-        <Tab.Screen
-          name="Movies"
-          component={Movies}
-          options={{ 
-            headerShown: false, 
-            title: "", 
-            headerStatusBarHeight: 0,
-          }}
-        />
-        <Tab.Screen
-          name="descriptionGeneralMovie"
-          component={DescriptionMovie}
-          options={{ 
-            headerShown: false, 
-            title: "", 
-            headerStatusBarHeight: 0,
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home1" 
+        component={Movies}
+        options={{ headerShown: false,  headerStatusBarHeight: 0, }}
+      />
+      <HomeStack.Screen 
+        name="Home2" 
+        component={DescriptionMovie} 
+        options={{
+          headerTransparent: true, 
+          title: '',
+          headerTintColor: '#fff'
+        }}
+      />
+    </HomeStack.Navigator>
   );
 }
 

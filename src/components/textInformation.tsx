@@ -28,7 +28,11 @@ const ValueText = styled.Text`
 export interface Props {
   field: string;
   value: string;
-}
+};
+
+/**
+ * This component shows main movie's description 
+ */
 
 export default function TextInformation(props: Props) {
   const {field, value} = props;
